@@ -1,7 +1,7 @@
 # Developer Tools Project
 
 > Holberton School - Web Front-End  
-> Author: [Ton Nom]
+> Author: [Ines Oubabas]
 
 ---
 
