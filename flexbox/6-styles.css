@@ -1,29 +1,14 @@
-:root {
-  --color-primary: #FF6565;
-  --color-black: #090909;
-  --color-white: #FFFFFF;
-  --color-light-grey: #F2F2F2;
-  --font-size-small: 1.2rem;
-  --font-size-normal: 1.6rem;
-  --font-size-large: 2.4rem;
-  --font-size-x-large: 4.8rem;
-  --line-height-small: 1.2;
-  --line-height-normal: 1.6;
-  --line-height-large: 2;
-  --section-padding: 5rem 2rem;
-  --nav-item-margin: 0 0 0 2rem;
-}
-
-/* Navbar
-   ============================= */
-.nav {
+/* Navbar section */
+nav {
   display: flex;
 }
 
-.nav .nav-item {
-  /* display has been removed as required */
-}
-
+/* Removed display and margin from .nav .nav-item */
 .nav .nav-item + .nav-item {
   margin: var(--nav-item-margin);
+}
+
+/* Variables */
+:root {
+  --nav-item-margin: 0 0 0 2rem;
 }
