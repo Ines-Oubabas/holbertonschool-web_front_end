@@ -18,7 +18,8 @@
 }
 
 .nav .nav-item {
-  /* plus besoin de display ici */
+  display: block;
+  margin: 0;
 }
 
 .nav .nav-item + .nav-item {
