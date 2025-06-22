@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Task 11</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    .form-group {
+      margin: 10px 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+  </style>
+  <script type="application/javascript">
+    function addPostRow(data) {
+      const p = $('<p></p>')
+        .append($('<span></span>').text(`Post created with id ${data.id}, title: ${data.title}, author: ${data.author}`));
+      $('body').append(p);
+    }
+
+    function listPosts() {
+      $.get('http://localhost:3000/posts')
+        .done(function(response) {
+          // ✅ Trie les résultats par ID croissant (numérique)
+          response.sort((a, b) => Number(b.id) - Number(a.id));
+          response.forEach(function(post) {
+            addPostRow(post);
+          });
+        })
+        .fail(function() {
+          alert('Server Error');
+        });
+    }
+
+
+    function buildForm() {
+      const form = $('<form></form>');
+
+      // Author input
+      const authorDiv = $('<div></div>').addClass('form-group');
+      const authorLabel = $('<label></label>').text('Author').attr('for', 'author');
+      const authorInput = $('<input>')
+        .attr('type', 'text')
+        .attr('id', 'author');
+      authorDiv.append(authorLabel, authorInput);
+
+      // Title input
+      const titleDiv = $('<div></div>').addClass('form-group');
+      const titleLabel = $('<label></label>').text('Title').attr('for', 'title');
+      const titleInput = $('<textarea>').attr('id', 'title');
+      titleDiv.append(titleLabel, titleInput);
+
+      // Submit button
+      const submit = $('<input>').attr('type', 'submit');
+
+      form.append(authorDiv, titleDiv, submit);
+      $('body').append(form);
+
+      form.submit(function(e) {
+        e.preventDefault();
+        sendForm();
+      });
+    }
+
+    function sendForm() {
+      const title = $('#title').val().trim();
+      const author = $('#author').val().trim();
+
+      if (!title || !author) {
+        alert('Please fill in both Title and Author.');
+        return;
+      }
+
+      const data = { title: title, author: author };
+
+      $('form').after('<p>About to send the query to the API</p>');
+
+      $.ajax({
+        url: 'http://localhost:3000/posts',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(response) {
+          addPostRow(response);
+          // Vide les champs
+          $('#title').val('');
+          $('#author').val('');
+        },
+        error: function() {
+          alert('Error sending the POST query');
+        }
+      });
+    }
+
+
+    $(document).ready(function() {
+      listPosts();
+      buildForm();
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>

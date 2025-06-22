@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <title>Task 6</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    form {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      padding: 6px 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .select-wrapper {
+      position: relative;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: white;
+      overflow: hidden;
+      height: 34px;
+    }
+
+    .select-wrapper select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      border: none;
+      background-color: transparent;
+      padding: 6px 30px 6px 10px;
+      font-size: 14px;
+      height: 100%;
+      width: 100%;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+    }
+
+    .select-wrapper::after {
+      content: "▴▾";
+      font-size: 10px;
+      line-height: 1;
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 30px;
+      background-color: #4CAF50;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+      border-left: 1px solid #ccc;
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    input[type="submit"] {
+      padding: 6px 12px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      background-color: white;
+      color: black;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    table {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+      border-collapse: collapse;
+    }
+
+    .remove-cell {
+      cursor: pointer;
+      background-color: orange;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+  </style>
+  <script type="application/javascript">
+    function createFamilyTree() {
+      const table = $('<table></table>');
+      const thead = $('<thead></thead>');
+      const tbody = $('<tbody></tbody>');
+
+      thead.append(
+        $('<tr></tr>')
+          .append($('<th></th>').text('Firstname'))
+          .append($('<th></th>').text('Lastname'))
+      );
+
+      table.append(thead, tbody);
+      $('body').append(table);
+    }
+
+    function addNewMember(firstName, lastName, position) {
+      const row = $('<tr></tr>')
+        .append($('<td></td>').text(firstName))
+        .append($('<td></td>').text(lastName))
+        .append(
+          $('<td></td>')
+            .text('(x)')
+            .addClass('remove-cell')
+            .click(function () {
+              $(this).closest('tr').remove();
+            })
+        );
+
+      if (position === 'before') {
+        $('tbody').prepend(row);
+      } else {
+        $('tbody').append(row);
+      }
+    }
+
+    function createForm() {
+      const form = $('<form></form>');
+
+      form.append($('<input>').attr('type', 'text').attr('placeholder', 'First Name'));
+      form.append($('<input>').attr('type', 'text').attr('placeholder', 'Last Name'));
+
+      const selectWrapper = $('<div class="select-wrapper"></div>');
+      const select = $('<select></select>')
+        .append($('<option></option>').val('before').text('Before'))
+        .append($('<option></option>').val('after').text('After'));
+
+      selectWrapper.append(select);
+      form.append(selectWrapper);
+      form.append($('<input>').attr('type', 'submit').val('Submit'));
+
+      form.submit(function (e) {
+        e.preventDefault();
+
+        const firstName = $('form input:first-of-type').val();
+        const lastName = $('form input:nth-of-type(2)').val();
+        const position = $('form select').val();
+
+        addNewMember(firstName, lastName, position);
+
+        $(this).find('input[type="text"]').val('');
+      });
+
+      $('table').before(form);
+    }
+
+    $(document).ready(function () {
+      createFamilyTree();
+      createForm();
+
+      // ✅ Ajout des membres par défaut (comme demandé)
+      addNewMember('Guillaume', 'Salva', 'after');
+      addNewMember('Arielle', 'Snizt', 'after');
+      addNewMember('Fanette', 'Snizt', 'after');
+      addNewMember('Gerard', 'Snizt', 'after');
+      addNewMember('Victor', 'Salva', 'after');
+    });
+  </script>
+</head>
+<body></body>
+</html>
