@@ -22,7 +22,7 @@ Ce projet a pour objectif de renforcer la maîtrise de **jQuery** à travers une
 ### 1. Cloner le repository
 
 ```bash
-git clone https://github.com/<votre-utilisateur>/holbertonschool-web_front_end.git
+git clone https://github.com/<Ines-Oubabas>/holbertonschool-web_front_end.git
 cd holbertonschool-web_front_end/JQuery_advanced
 ```
 
